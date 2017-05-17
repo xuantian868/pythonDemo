@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 '''
-Created on 2017��5��17��
+Created on 2017年5月17日
 
 @author: 123
 '''
