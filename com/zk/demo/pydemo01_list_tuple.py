@@ -46,6 +46,7 @@ t2 = (1)  #元素是1的元组
 t3 = (1,)  #要定义一个只有 1 个元素的 tuple 
 
 
+
 L = [
  ['Apple', 'Google', 'Microsoft'],
  ['Java', 'Python', 'Ruby', 'PHP'],
