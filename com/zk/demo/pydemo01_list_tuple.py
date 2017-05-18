@@ -27,6 +27,9 @@ print ("删除一个元素后:",classmates)
 L = ['Apple', 123, True]
 print (L)
 
+print("index 0:"+L[0])
+L[0] = 'banlanan'
+print("index 0:"+L[0])
 #list 元素也可以是另一个 list
 s = ['python', 'java', ['asp', 'php'], 'scheme']
 print (s)
