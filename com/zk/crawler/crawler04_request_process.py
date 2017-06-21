@@ -14,20 +14,12 @@ import pymysql
 import urllib.request
 
 url = 'https://movie.douban.com/top250'
-#创建连接
-conn = pymysql.connect(host='127.0.0.1', port=3308, user='root', passwd='lihlsereb', db='carshop', charset='utf8')
 
 def fetch_page(url):
     response = requests.get(url)
     return response
 
 
-def saveMovie(self,title):
-    cursor = conn.cursor()
-    #执行插入
-    cursor.execute('insert into S_MOVIE (MOVIENAME) values (%s)', [title])
-    cursor.close()
-    conn.commit()  
 
 def saveImg(imageURL,fileName):
      u = urllib.request.urlopen(imageURL)
@@ -49,48 +41,41 @@ def parse(url):
     xpath_pages = '//*[@id="content"]/div[1]/div[1]/div[2]/a'
     #效果与上面相同。分页的标签class属性是paginator 取第一个下的所有a标签
     #xpath_pages = '//*[@class="paginator"][1]/a'
-
-    pages = html.xpath(xpath_pages)
-    fetch_list = []
-    result = []
-
-    for element_movie in html.xpath(xpath_movie):
-        result.append(element_movie)
-
-    #所有的翻页链接
-    for p in pages:
-        fetch_list.append(url + p.get('href'))#拼出的翻页链接 https://movie.douban.com/top250?start=25&filter=
-        print('url:%s' % p.get('href'))
     
-    def fetch_content(url):
-        response = fetch_page(url)
-        page = response.content
-        html = etree.HTML(page)
-        for element_movie in html.xpath(xpath_movie):
-            result.append(element_movie)  
-       
-    threads = []
-    for url in fetch_list:
-        t = Thread(target=fetch_content,args=[url])
-        t.start()
-        threads.append(t)
-            
-            
-    for t in threads:
-        t.join()
-           
-    imgs = []
-    for i, movie in enumerate(result, 1):
-        title = movie.find(xpath_title).text
-        imgurl = movie.find(xpath_img).get('src')
-        imgname = imgurl[imgurl.rfind('/')+1:]
-        print(i, title,imgurl)
-        #t = Thread(target=saveImg,args=[imgurl,imgname])
-        #t.start()
-        #saveImg(imgurl,imgname)
-        #imgs.append(imgurl)
-       
+    movieEles = []
+    #第一页的电影
+    for m in html.xpath(xpath_movie):
+        movieEles.append(m)
+
+    pages = []
+    pageEles = html.xpath(xpath_pages)
+    for p in pageEles:
+        pages.append(url+p.get('href'))
+        print(p.get('href'))
         
+    
+    def paseUrl(url):
+        response = fetch_page(url)
+        content = response.content;
+        html = etree.HTML(content)
+        for m in html.xpath(xpath_movie):
+            movieEles.append(m)
+        
+    threads = []
+    for p in pages:
+        thread = Thread(target=paseUrl,args=[url])
+        thread.start()
+        threads.append(thread)
+        
+    
+    for thread in threads:
+        thread.join()
+    
+    for i,m in enumerate(movieEles,1):
+        title = m.find(xpath_title).text
+        print('movie %d %s'% (i,title))
+    
+
     
 
 

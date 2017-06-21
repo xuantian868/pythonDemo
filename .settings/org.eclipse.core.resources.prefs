@@ -2,6 +2,7 @@ eclipse.preferences.version=1
 encoding//com/zk/crawler/crawler01_urllib.py=utf-8
 encoding//com/zk/crawler/crawler02_request.py=utf-8
 encoding//com/zk/crawler/crawler03_request_thread.py=utf-8
+encoding//com/zk/crawler/crawler04_request_process.py=utf-8
 encoding//com/zk/demo/Hello.py=utf-8
 encoding//com/zk/demo/pydemo01_list_tuple.py=utf-8
 encoding//com/zk/demo/pydemo02_if_else.py=utf-8
